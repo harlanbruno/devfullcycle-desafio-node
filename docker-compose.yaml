@@ -12,6 +12,7 @@ services:
       - node-network
     volumes:
       - ./node:/app
+      - ./node/node_modules:/app/node_modules
     tty: true
     depends_on:
       - db
@@ -48,7 +49,6 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
     command: /bin/sh -c "exec nginx -g 'daemon off;'"
-
 
 networks:
   node-network:
