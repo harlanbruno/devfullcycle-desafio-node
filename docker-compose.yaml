@@ -8,15 +8,15 @@ services:
       context: ./node
       dockerfile: Dockerfile
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    entrypoint: sh -c "npm install && node index.js"
     networks:
       - node-network
     volumes:
       - ./node:/app
-      - ./node/node_modules:/app/node_modules
     tty: true
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "3000:3000"
 
@@ -34,6 +34,11 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - node-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
   nginx:
     image: nginx
