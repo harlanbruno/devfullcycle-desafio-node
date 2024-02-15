@@ -10,11 +10,13 @@ services:
       - node-network
     volumes:
       - ./node:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
     tty: true
     ports:
       - "3000:3000"
     depends_on:
       - db
+    #command: sh -c "npm install update && npm install && npm install express && npm install mysql"
 
   db:
     image: mysql:5.7
@@ -25,7 +27,6 @@ services:
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
@@ -35,3 +36,6 @@ services:
 networks:
   node-network:
     driver: bridge
+
+volumes:
+  node_modules:

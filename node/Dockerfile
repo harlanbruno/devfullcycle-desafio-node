@@ -5,12 +5,14 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install && \
-    npm install express && \
+    npm install express --save-dev && \
     npm install mysql --SAVE
 
 COPY . .
 
 EXPOSE 3000
 
-# Comando de inicialização
-#CMD ["node", "index.js"]
+RUN chmod -R 777 /root
+
+#CMD ["npm", "install"]
+CMD ["node", "index.js"]
