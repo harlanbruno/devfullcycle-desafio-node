@@ -35,7 +35,6 @@ services:
 
   nginx:
     image: nginx
-    restart: always
     build:
       context: ./nginx
       dockerfile: Dockerfile
@@ -44,6 +43,12 @@ services:
       - "8080:80"
     depends_on:
       - app
+    networks:
+      - node-network
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    command: /bin/sh -c "exec nginx -g 'daemon off;'"
+
 
 networks:
   node-network:
