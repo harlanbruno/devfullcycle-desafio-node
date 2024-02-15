@@ -1,18 +1,11 @@
-FROM node:14-alpine
+FROM node:15
 
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install && \
-    npm install express --save-dev && \
-    npm install mysql --SAVE
-
-COPY . .
+RUN npm install
 
 EXPOSE 3000
-
-RUN chmod -R 777 /root
-
-#CMD ["npm", "install"]
-CMD ["node", "index.js"]

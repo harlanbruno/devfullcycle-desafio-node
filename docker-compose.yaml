@@ -3,20 +3,20 @@ version: '3'
 services:
 
   app:
+    image: app
     build:
-      context: node
+      context: ./node
+      dockerfile: Dockerfile
     container_name: app
     networks:
       - node-network
     volumes:
-      - ./node:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+      - ./node:/app
     tty: true
-    ports:
-      - "3000:3000"
     depends_on:
       - db
-    #command: sh -c "npm install update && npm install && npm install express && npm install mysql"
+    ports:
+      - "3000:3000"
 
   db:
     image: mysql:5.7
@@ -25,17 +25,26 @@ services:
     restart: always
     tty: true
     volumes:
-      - ./mysql/data:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql/database:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - node-network
 
+  nginx:
+    image: nginx
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
 networks:
   node-network:
     driver: bridge
-
-volumes:
-  node_modules:

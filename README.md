@@ -15,13 +15,6 @@ Siga as instruções abaixo para configurar e executar o projeto localmente:
 3. Execute o comando `docker-compose up -d` para iniciar os contêineres Docker.
 4. Acesse a aplicação em seu navegador em `http://localhost:8080`.
 
-## Imagem Docker
-
-A imagem Docker deste projeto está disponível no Docker Hub em [link-da-imagem](link-da-imagem). 
-
-Para baixar a imagem, execute o seguinte comando:
-
-Substitua `nome-do-usuario/nome-da-imagem:tag` pelo nome completo da imagem no Docker Hub.
 
 ## Autor
 
